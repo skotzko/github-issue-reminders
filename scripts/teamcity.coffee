@@ -160,7 +160,7 @@ module.exports = (robot) ->
                 else
                   msg.send "The requested builds have been killed"
 
-  robot.respond /tc host, (msg) ->
+  robot.respond /tc host/, (msg) ->
     msg.send "Current configured to talk to #{base_url}"
 
   robot.respond /show me builds/i, (msg) ->

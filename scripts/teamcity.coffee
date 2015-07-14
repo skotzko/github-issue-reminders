@@ -50,12 +50,18 @@ module.exports = (robot) ->
         callback err, body, msg
 
   getCurrentBuilds = (msg, type, callback) ->
+    robot.logger.error "starting to get current builds"
     if (arguments.length == 2)
+      robot.logger.error "args length 2"
       if (Object.prototype.toString.call(type) == "[object Function]")
         callback = type
         url = "#{base_url}/httpAuth/app/rest/builds/?locator=running:true"
+        robot.logger.error "url: #{url}"
     else
       url = "#{base_url}/httpAuth/app/rest/builds/?locator=buildType:#{type},running:true"
+      robot.logger.error "url: #{url}"
+
+    robot.logger.error "calling out to #{url}"
     msg.http(url)
       .headers(getAuthHeader())
       .get() (err, res, body) ->
@@ -161,8 +167,8 @@ module.exports = (robot) ->
                   msg.send "The requested builds have been killed"
 
   robot.respond /tc host/, (msg) ->
-    robot.logger.error "responding to tc host command"
     msg.send "Current configured to talk to #{base_url}"
+    msg.send "my teamcity username is: #{username}"
 
   robot.respond /show me builds/i, (msg) ->
     getCurrentBuilds msg, (err, builds, msg) ->
